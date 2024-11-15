@@ -1,0 +1,4 @@
+name = "Trojan"
+uuid = "0e4934dc-eaf3-4521-ad9c-bfd48144ee07"
+authors = ["Karl Linek <karl@linek.at>"]
+version = "0.1.0"
