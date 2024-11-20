@@ -10,7 +10,8 @@ export generate_pyt_triple,
 	get_trojan_triples_for_a_number_vector,
 	expand_trojan_triple_vector,
 	analyze_c_frequencies,
-	get_coordinates_point_C_of_laying_triangle
+	get_coordinates_point_C_of_laying_triangle,
+	rotate_point_by_angle
 
 
 
@@ -205,6 +206,12 @@ function get_coordinates_point_C_of_laying_triangle(a, b, c)
 	area = sqrt(s * (s - a) * (s - b) * (s - c))
 	x = (a^2 + b^2 - c^2) / (2 * b)
 	y = 2 * area / b
+	return (x=x, y=y)
+end
+
+function rotate_point_by_angle(point::NamedTuple, angle::Real)::NamedTuple
+	x = point.x * cosd(angle) - point.y * sind(angle)
+	y = point.x * sind(angle) + point.y * cosd(angle)
 	return (x=x, y=y)
 end
 
