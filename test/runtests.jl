@@ -72,3 +72,12 @@ end
 	@test isapprox(koord2.x, 3, atol = 0.01)
 	@test isapprox(koord2.y, 0, atol = 0.01)
 end
+
+@testset "move_point" begin
+    point = (x = 0.0, y = 3.0)
+    transvektor = (x = 3.0, y = -4.0)
+    koord1 = move_point(point, transvektor)
+    @test isapprox(koord1.x, 3, atol = 0.01)
+    @test isapprox(koord1.y, -1, atol = 0.01)
+   
+end
