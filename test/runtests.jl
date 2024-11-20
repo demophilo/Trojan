@@ -55,3 +55,9 @@ end
     @test triple2[end].b == 195
     @test triple2[end].c == 211
 end
+
+@testset "get_coordinates_point_C_of_laying_triangle" begin
+    koord1 = get_coordinates_point_C_of_laying_triangle(3, 4, 5)
+    @test isapprox(koord1.x, 0, atol = 0.01)
+    @test isapprox(koord1.y, 3, atol = 0.01)
+end
