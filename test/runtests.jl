@@ -81,3 +81,10 @@ end
     @test isapprox(koord1.y, -1, atol = 0.01)
    
 end
+
+@testset "stretch_point" begin
+    point = (x = 1.0, y = 3.0)
+    koord1 = stretch_point(point, 2, 1/3)
+    @test isapprox(koord1.x, 2, atol = 0.01)
+    @test isapprox(koord1.y, 1, atol = 0.01)
+end
