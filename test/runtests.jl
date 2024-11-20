@@ -39,35 +39,36 @@ end
 end
 
 @testset "generate_trojan_triple_vector" begin
-    triple1 = generate_trojan_triple_vector(3)
-    triple2 = generate_trojan_triple_vector(15)
+	triple1 = generate_trojan_triple_vector(3)
+	triple2 = generate_trojan_triple_vector(15)
 
-    @test triple1[1].a == 3
-    @test triple1[1].b == 5
-    @test triple1[1].c == 7
-    @test triple2[1].a == 3
-    @test triple2[1].b == 5
-    @test triple2[1].c == 7
-    @test triple2[2].a == 7
-    @test triple2[2].b == 8
-    @test triple2[2].c == 13
-    @test triple2[end].a == 29
-    @test triple2[end].b == 195
-    @test triple2[end].c == 211
+	@test triple1[1].a == 3
+	@test triple1[1].b == 5
+	@test triple1[1].c == 7
+	@test triple2[1].a == 3
+	@test triple2[1].b == 5
+	@test triple2[1].c == 7
+	@test triple2[2].a == 7
+	@test triple2[2].b == 8
+	@test triple2[2].c == 13
+	@test triple2[end].a == 29
+	@test triple2[end].b == 195
+	@test triple2[end].c == 211
 end
 
 @testset "get_coordinates_point_C_of_laying_triangle" begin
-    koord1 = get_coordinates_point_C_of_laying_triangle(3, 4, 5)
-    @test isapprox(koord1.x, 0, atol = 0.01)
-    @test isapprox(koord1.y, 3, atol = 0.01)
+	koord1 = get_coordinates_point_C_of_laying_triangle(3, 4, 5)
+	@test isapprox(koord1.x, 0, atol = 0.01)
+	@test isapprox(koord1.y, 3, atol = 0.01)
 end
 
 @testset "rotate_point_by_angle" begin
-    point = (x=0, y=3)
-    koord1 = rotate_point_by_angle(point, 90)
-    koord2 = rotate_point_by_angle(point, -90)
-    @test isapprox(koord1.x, -3, atol = 0.01)
-    @test isapprox(koord1.y, 0, atol = 0.01)
-    @test isapprox(koord2.x, 3, atol = 0.01)
-    @test isapprox(koord2.y, 0, atol = 0.01)
+	point = (x = 0.0, y = 3.0)
+
+	koord1 = rotate_point_by_angle(point, 90.0)
+	koord2 = rotate_point_by_angle(point, -90.0)
+	@test isapprox(koord1.x, -3, atol = 0.01)
+	@test isapprox(koord1.y, 0, atol = 0.01)
+	@test isapprox(koord2.x, 3, atol = 0.01)
+	@test isapprox(koord2.y, 0, atol = 0.01)
 end
