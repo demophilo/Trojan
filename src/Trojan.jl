@@ -12,7 +12,8 @@ export generate_pyt_triple,
 	analyze_c_frequencies,
 	get_coordinates_point_C_of_laying_triangle,
 	rotate_point_by_angle,
-	move_point
+	move_point,
+	stretch_point
 
 """
 	generate_pyt_triple(big_num::Int, small_num::Int)::NamedTuple{(:a, :b, :c), Tuple{Int, Int, Int}}
@@ -218,6 +219,13 @@ function move_point(point::NamedTuple{(:x, :y), <:Tuple{Real, Real}}, transvecto
 	x_new = point.x + transvector.x
 	y_new = point.y + transvector.y
 	return (x = x_new, y = y_new)
+end
+
+function stretch_point(point::NamedTuple{(:x, :y), <:Tuple{Real, Real}}, x_factor::Real, y_factor::Real)::NamedTuple{(:x, :y), Tuple{Real, Real}}
+	x_new = point.x * x_factor
+	y_new = point.y * y_factor
+	return (x = x_new, y = y_new)
+	
 end
 
 end # module Trojan
