@@ -7,9 +7,10 @@ export generate_pyt_triple,
 	generate_trojan_triple_vector,
 	get_ext_trojan_triple_vector,
 	add_angles_to_triple_vector,
-	get_trojan_triples_for_a_number,
+	get_trojan_triples_for_a_number_vector,
 	expand_trojan_triple_vector,
-	analyze_c_frequencies
+	analyze_c_frequencies,
+	get_coordinates_point_C_of_laying_triangle
 
 
 
@@ -79,8 +80,8 @@ function generate_trojan_triple_vector(num::Int)
 			trip = generate_trojan_triple_120(big_num, small_num)
 			push!(triple_set, (a = trip.a, b = trip.b, c = trip.c))
 		end
-
 	end
+
 	triple_vector = collect(triple_set)
 
 	sort!(triple_vector, by = x -> (x.c, x.b))
@@ -138,7 +139,7 @@ end
 Input: number
 Output: vector of all possible named trojan triples, which have an edge of the size of the input number
 """
-function get_trojan_triples_for_a_number(num::Int)
+function get_trojan_triples_for_a_number_vector(num::Int)
 	big_num::Int = ceil(sqrt(4 * num / 3 + 1))
 	triple_vector = generate_trojan_triple_vector(big_num)
 	every_triple_vector = expand_trojan_triple_vector(triple_vector)
@@ -197,6 +198,14 @@ function analyze_c_frequencies(ext_triples, max_num)
 	end
 
 	return frequency_counts
+end
+
+function get_coordinates_point_C_of_laying_triangle(a, b, c)
+	s = (a + b + c) / 2
+	area = sqrt(s * (s - a) * (s - b) * (s - c))
+	x = (a^2 + b^2 - c^2) / (2 * b)
+	y = 2 * area / b
+	return (x=x, y=y)
 end
 
 end # module Trojan
