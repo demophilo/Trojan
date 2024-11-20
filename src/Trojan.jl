@@ -11,9 +11,8 @@ export generate_pyt_triple,
 	expand_trojan_triple_vector,
 	analyze_c_frequencies,
 	get_coordinates_point_C_of_laying_triangle,
-	rotate_point_by_angle
-
-
+	rotate_point_by_angle,
+	move_point
 
 """
 	generate_pyt_triple(big_num::Int, small_num::Int)::NamedTuple{(:a, :b, :c), Tuple{Int, Int, Int}}
@@ -201,18 +200,24 @@ function analyze_c_frequencies(ext_triples, max_num)
 	return frequency_counts
 end
 
-function get_coordinates_point_C_of_laying_triangle(a, b, c)
+function get_coordinates_point_C_of_laying_triangle(a, b, c)::NamedTuple{(:x, :y), Tuple{Real, Real}}
 	s = (a + b + c) / 2
 	area = sqrt(s * (s - a) * (s - b) * (s - c))
 	x = (a^2 + b^2 - c^2) / (2 * b)
 	y = 2 * area / b
-	return (x=x, y=y)
+	return (x = x, y = y)
 end
 
-function rotate_point_by_angle(point::NamedTuple, angle::Real)::NamedTuple
+function rotate_point_by_angle(point::NamedTuple{(:x, :y), <:Tuple{Real, Real}}, angle::Real)::NamedTuple{(:x, :y), Tuple{Real, Real}}
 	x = point.x * cosd(angle) - point.y * sind(angle)
 	y = point.x * sind(angle) + point.y * cosd(angle)
-	return (x=x, y=y)
+	return (x = x, y = y)
+end
+
+function move_point(point::NamedTuple{(:x, :y), <:Tuple{Real, Real}}, transvector::NamedTuple{(:x, :y), <:Tuple{Real, Real}})::NamedTuple{(:x, :y), Tuple{Real, Real}}
+	x_new = point.x + transvector.x
+	y_new = point.y + transvector.y
+	return (x = x_new, y = y_new)
 end
 
 end # module Trojan
