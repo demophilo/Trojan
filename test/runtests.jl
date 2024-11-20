@@ -61,3 +61,13 @@ end
     @test isapprox(koord1.x, 0, atol = 0.01)
     @test isapprox(koord1.y, 3, atol = 0.01)
 end
+
+@testset "rotate_point_by_angle" begin
+    point = (x=0, y=3)
+    koord1 = rotate_point_by_angle(point, 90)
+    koord2 = rotate_point_by_angle(point, -90)
+    @test isapprox(koord1.x, -3, atol = 0.01)
+    @test isapprox(koord1.y, 0, atol = 0.01)
+    @test isapprox(koord2.x, 3, atol = 0.01)
+    @test isapprox(koord2.y, 0, atol = 0.01)
+end
