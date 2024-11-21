@@ -57,8 +57,8 @@ end
 end
 
 @testset "get_coordinates_point_C_of_laying_triangle" begin
-	koord1 = get_coordinates_point_C_of_laying_triangle(3, 4, 5)
-	@test isapprox(koord1.x, 0, atol = 0.01)
+	koord1 = get_coordinates_point_C_of_laying_triangle(3, 5, 4)
+	@test isapprox(koord1.x, 4, atol = 0.01)
 	@test isapprox(koord1.y, 3, atol = 0.01)
 end
 
@@ -74,17 +74,32 @@ end
 end
 
 @testset "move_point" begin
-    point = (x = 0.0, y = 3.0)
-    transvektor = (x = 3.0, y = -4.0)
-    koord1 = move_point(point, transvektor)
-    @test isapprox(koord1.x, 3, atol = 0.01)
-    @test isapprox(koord1.y, -1, atol = 0.01)
-   
+	point = (x = 0.0, y = 3.0)
+	transvektor = (x = 3.0, y = -4.0)
+	koord1 = move_point(point, transvektor)
+	@test isapprox(koord1.x, 3, atol = 0.01)
+	@test isapprox(koord1.y, -1, atol = 0.01)
+
 end
 
 @testset "stretch_point" begin
-    point = (x = 1.0, y = 3.0)
-    koord1 = stretch_point(point, 2, 1/3)
-    @test isapprox(koord1.x, 2, atol = 0.01)
-    @test isapprox(koord1.y, 1, atol = 0.01)
+	point = (x = 1.0, y = 3.0)
+	koord1 = stretch_point(point, 2, 1 / 3)
+	@test isapprox(koord1.x, 2, atol = 0.01)
+	@test isapprox(koord1.y, 1, atol = 0.01)
+end
+
+@testset "get_points_normalized" begin
+	triple = (a = 3, b = 5, c = 7)
+	points_normalized = get_points_normalized(triple)
+	@test isapprox(points_normalized.point1.x, 0, atol = 0.01)
+	@test isapprox(points_normalized.point1.y, 0, atol = 0.01)
+	@test isapprox(points_normalized.point2.x, 1, atol = 0.01)
+	@test isapprox(points_normalized.point2.y, 0, atol = 0.01)
+	@test isapprox(points_normalized.point3.x, 1.163265, atol = 0.01)
+	@test isapprox(points_normalized.point3.y, 1.131071, atol = 0.01)
+	@test isapprox(points_normalized.point4.x, 0.163265, atol = 0.01)
+	@test isapprox(points_normalized.point4.y, 1.131071, atol = 0.01)
+	@test isapprox(points_normalized.point5.x, 0.5, atol = 0.01)
+	@test isapprox(points_normalized.point5.y, 0.866025, atol = 0.01)
 end
