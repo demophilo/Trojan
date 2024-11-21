@@ -13,7 +13,8 @@ export generate_pyt_triple,
 	get_coordinates_point_C_of_laying_triangle,
 	rotate_point_by_angle,
 	move_point,
-	stretch_point
+	stretch_point,
+	get_points_normalized
 
 """
 	generate_pyt_triple(big_num::Int, small_num::Int)::NamedTuple{(:a, :b, :c), Tuple{Int, Int, Int}}
@@ -201,11 +202,14 @@ function analyze_c_frequencies(ext_triples, max_num)
 	return frequency_counts
 end
 
-function get_coordinates_point_C_of_laying_triangle(a, b, c)::NamedTuple{(:x, :y), Tuple{Real, Real}}
-	s = (a + b + c) / 2
-	area = sqrt(s * (s - a) * (s - b) * (s - c))
-	x = (a^2 + b^2 - c^2) / (2 * b)
-	y = 2 * area / b
+#####################################################
+# Functions for the visualization of the triangles
+#####################################################
+
+function get_coordinates_point_C_of_laying_triangle(opposite_edge, adjacent_edge, base_edge)::NamedTuple{(:x, :y), Tuple{Real, Real}}
+	cos_α = (base_edge^2 + adjacent_edge^2 - opposite_edge^2) / (2 * base_edge*adjacent_edge)
+	x = adjacent_edge * cos_α
+	y = adjacent_edge * sqrt(1 - cos_α^2)
 	return (x = x, y = y)
 end
 
@@ -225,7 +229,18 @@ function stretch_point(point::NamedTuple{(:x, :y), <:Tuple{Real, Real}}, x_facto
 	x_new = point.x * x_factor
 	y_new = point.y * y_factor
 	return (x = x_new, y = y_new)
-	
+
 end
+
+function get_points_normalized(triple::NamedTuple{(:a, :b, :c), <:Tuple{Int, Int, Int}})
+	point_1 = (x = 0.0, y = 0.0)
+	point_2 = (x = 1.0, y = 0.0)
+	point_C_of_small_triangle = get_coordinates_point_C_of_laying_triangle(triple.a, triple.a + triple.b, triple.c)
+	point_4 = point_C_of_small_triangle |> p -> stretch_point(p, 1/triple.c, 1/triple.c) |> p -> rotate_point_by_angle(p, 60.0)
+	point_3 = (x = point_4.x + 1, y = point_4.y)
+	point_5 = (x = 0.5, y = sqrt(3) / 2)
+	return (point1 = point_1, point2 = point_2, point3 = point_3, point4 = point_4, point5 = point_5)
+end
+
 
 end # module Trojan
