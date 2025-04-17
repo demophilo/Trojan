@@ -1,3 +1,4 @@
 module_Triples.jl
 Triples.jl
 .vscode/
+*.svg

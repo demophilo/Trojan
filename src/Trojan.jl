@@ -1,5 +1,6 @@
 module Trojan
 using StatsBase # Für countmap
+using Printf # Für @printf
 
 export generate_pyt_triple,
 	generate_trojan_triple_120,
@@ -14,7 +15,8 @@ export generate_pyt_triple,
 	rotate_point_by_angle,
 	move_point,
 	stretch_point,
-	get_points_normalized
+	get_points_normalized,
+	draw_custom_lines
 
 """
 	generate_pyt_triple(big_num::Int, small_num::Int)::NamedTuple{(:a, :b, :c), Tuple{Int, Int, Int}}
@@ -207,7 +209,7 @@ end
 #####################################################
 
 function get_coordinates_point_C_of_laying_triangle(opposite_edge, adjacent_edge, base_edge)::NamedTuple{(:x, :y), Tuple{Real, Real}}
-	cos_α = (base_edge^2 + adjacent_edge^2 - opposite_edge^2) / (2 * base_edge*adjacent_edge)
+	cos_α = (base_edge^2 + adjacent_edge^2 - opposite_edge^2) / (2 * base_edge * adjacent_edge)
 	x = adjacent_edge * cos_α
 	y = adjacent_edge * sqrt(1 - cos_α^2)
 	return (x = x, y = y)
@@ -236,11 +238,26 @@ function get_points_normalized(triple::NamedTuple{(:a, :b, :c), <:Tuple{Int, Int
 	point_1 = (x = 0.0, y = 0.0)
 	point_2 = (x = 1.0, y = 0.0)
 	point_C_of_small_triangle = get_coordinates_point_C_of_laying_triangle(triple.a, triple.a + triple.b, triple.c)
-	point_4 = point_C_of_small_triangle |> p -> stretch_point(p, 1/triple.c, 1/triple.c) |> p -> rotate_point_by_angle(p, 60.0)
-	point_3 = (x = point_4.x + 1, y = point_4.y)
+	point_4 = point_C_of_small_triangle |> p -> stretch_point(p, 1000 / triple.c, 1000 / triple.c) |> p -> rotate_point_by_angle(p, 60.0)
+	point_3 = (x = point_4.x + 1000, y = point_4.y)
 	point_5 = (x = 0.5, y = sqrt(3) / 2)
 	return (point1 = point_1, point2 = point_2, point3 = point_3, point4 = point_4, point5 = point_5)
 end
 
 
+function draw_custom_lines(points::NamedTuple{(:point1, :point2, :point3, :point4, :point5), <:Tuple{NamedTuple{(:x, :y), <:Tuple{Real, Real}}, NamedTuple{(:x, :y), <:Tuple{Real, Real}}, NamedTuple{(:x, :y), <:Tuple{Real, Real}}, NamedTuple{(:x, :y), <:Tuple{Real, Real}}, NamedTuple{(:x, :y), <:Tuple{Real, Real}}}}, filename::String, line_width::Real, line_color::String)
+    height = 1450.0
+    open(filename, "w") do file
+        @printf(file, "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1500 1500'>\n")
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point1.x, height - points.point1.y, points.point2.x, height - points.point2.y, line_color, line_width)
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point2.x, height - points.point2.y, points.point3.x, height - points.point3.y, line_color, line_width)
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point3.x, height - points.point3.y, points.point4.x, height - points.point4.y, line_color, line_width)
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point4.x, height - points.point4.y, points.point1.x, height - points.point1.y, line_color, line_width)
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point1.x, height - points.point1.y, points.point5.x, height - points.point5.y, line_color, line_width)
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point2.x, height - points.point2.y, points.point5.x, height - points.point5.y, line_color, line_width)
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point3.x, height - points.point3.y, points.point5.x, height - points.point5.y, line_color, line_width)
+        @printf(file, "  <line x1='%f' y1='%f' x2='%f' y2='%f' stroke='%s' stroke-width='%f'/>\n", points.point4.x, height - points.point4.y, points.point5.x, height - points.point5.y, line_color, line_width)
+        @printf(file, "</svg>\n")
+    end
+end
 end # module Trojan
